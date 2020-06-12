@@ -1,0 +1,22 @@
+{
+  "name": "@blackbox-vision/react-native-mercadopago-tokenize-checkout-example",
+  "displayName": "ReactNativeMercadopagoTokenizeCheckout Example",
+  "expo": {
+    "name": "@blackbox-vision/react-native-mercadopago-tokenize-checkout-example",
+    "slug": "blackbox-vision-react-native-mercadopago-tokenize-checkout-example",
+    "description": "Example app for @blackbox-vision/react-native-mercadopago-tokenize-checkout",
+    "privacy": "public",
+    "version": "1.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
