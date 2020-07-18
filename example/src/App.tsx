@@ -1,22 +1,22 @@
 import * as React from 'react';
-import { StatusBar, SafeAreaView } from 'react-native';
-import MercadoPagoWebTokenizeCheckout from '@blackbox-vision/react-native-mercadopago-tokenize-checkout';
+import { NavigationContainer } from '@react-navigation/native';
+import { Provider as PaperProvider } from 'react-native-paper';
+import { createStackNavigator } from '@react-navigation/stack';
+
+import { ProductsScreen } from './screens/Products';
+import { PaymentsScreen } from './screens/Payments';
+
+const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView style={{ flex: 1 }}>
-        <MercadoPagoWebTokenizeCheckout
-          amount={100.0}
-          action={'/payments'}
-          publicKey={'TEST-5d2cfefc-32ab-45d5-bab5-fc1bfc2bbb7c'}
-          theme={{
-            elements: '#c0392b',
-            header: '#c0392b',
-          }}
-        />
-      </SafeAreaView>
-    </>
+    <PaperProvider>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Products" component={ProductsScreen} />
+          <Stack.Screen name="Payments" component={PaymentsScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </PaperProvider>
   );
 }

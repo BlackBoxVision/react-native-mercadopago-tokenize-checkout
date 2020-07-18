@@ -1,3 +1,7 @@
+import 'intl';
+import 'intl/locale-data/jsonp/en';
+import 'react-native-gesture-handler';
+
 import { registerRootComponent } from 'expo';
 
 import App from './src/App';
