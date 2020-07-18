@@ -98,7 +98,7 @@ const MercadoPagoWebTokenizeCheckout: React.FC<MercadoPagoWebTokenizeCheckoutPro
           style={[styles.container, props.style]}
         />
       ),
-      [ref, props]
+      [props, ref]
     )
 );
 
