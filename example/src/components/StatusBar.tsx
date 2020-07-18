@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useTheme } from 'react-native-paper';
 import { View, StatusBar, Platform, SafeAreaView } from 'react-native';
 
-const AppStatusBar: React.FC<any> = (props) => {
+export const AppStatusBar: React.FC<any> = (props) => {
   const { colors } = useTheme();
 
   if (Platform.OS === 'ios') {
@@ -28,5 +28,3 @@ const AppStatusBar: React.FC<any> = (props) => {
     </View>
   );
 };
-
-export default AppStatusBar;
