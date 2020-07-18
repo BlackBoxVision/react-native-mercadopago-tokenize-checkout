@@ -1,65 +1,111 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useMemo } from 'react';
 import { WebView } from 'react-native-webview';
-import { BackHandler, ActivityIndicator } from 'react-native';
 
-export interface MercadoPagoWebTokenizeCheckoutProps {
-  amount: number;
-  action: string;
-  publicKey: string;
-  keepOpen?: boolean;
-  cardsIds?: string[];
-  customerId?: string;
+import { getHtmlCode, jsCode } from './utils';
+import { StyleSheet } from 'react-native';
+
+interface ThemeOptions {
+  /**
+   * Hexadecimal color for all the elements
+   */
+  elements?: string;
+  /**
+   * Hexadecimal color for the header
+   */
+  header?: string;
 }
 
-const MercadoPagoWebTokenizeCheckout: React.FC<MercadoPagoWebTokenizeCheckoutProps> = ({
-  amount,
-  action,
-  keepOpen,
-  publicKey,
-}: MercadoPagoWebTokenizeCheckoutProps) => {
-  const ref = useRef(null);
+export interface MercadoPagoWebTokenizeCheckoutProps {
+  /**
+   * The amount to pay for the product
+   */
+  amount: number;
+  /**
+   * The action where the data will be sent
+   */
+  action: string;
+  /**
+   * The Public Key for MP
+   */
+  publicKey: string;
+  /**
+   * Flag to restore the payment state if failure
+   */
+  keepOpen?: boolean;
+  /**
+   * The cards associated to the customer
+   */
+  cardsIds?: string[];
+  /**
+   * The ID for the customer
+   */
+  customerId?: string;
+  /**
+   * The theme for the checkout
+   */
+  theme?: ThemeOptions;
+  /**
+   * The label for the product
+   */
+  productLabel?: string;
+  /**
+   * The label for the discount
+   */
+  discountLabel?: string;
+  /**
+   * The total installments for the payment
+   */
+  maxInstallments?: number;
+  /**
+   * The amount for the discount
+   */
+  discount?: number;
+  /**
+   * The amount for the shipping
+   */
+  shipping?: number;
+  /**
+   * The amount for the additional charge
+   */
+  charge?: number;
+  /**
+   * The amount for the taxes
+   */
+  taxes?: number;
+  /**
+   * The amount for the arrears
+   */
+  arrears?: number;
+  /**
+   * The additional styles to customize the WebView
+   */
+  style?: any;
+}
 
-  const goBack: any = () => {
-    if (ref.current) {
-      (ref.current as any)?.back();
-    }
-  };
+const MercadoPagoWebTokenizeCheckout: React.FC<MercadoPagoWebTokenizeCheckoutProps> = React.forwardRef(
+  (props: MercadoPagoWebTokenizeCheckoutProps, ref: React.Ref<WebView>) =>
+    useMemo(
+      () => (
+        <WebView
+          ref={ref}
+          scalesPageToFit
+          javaScriptEnabled
+          startInLoadingState
+          originWhitelist={['*']}
+          injectedJavaScript={jsCode}
+          source={getHtmlCode(props)}
+          keyboardDisplayRequiresUserAction
+          style={[styles.container, props.style]}
+        />
+      ),
+      [ref, props]
+    )
+);
 
-  useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', goBack);
-
-    return () => {
-      BackHandler.removeEventListener('hardwareBackPress', goBack);
-    };
-  }, [ref]);
-
-  return (
-    <WebView
-      ref={ref}
-      scalesPageToFit
-      javaScriptEnabled
-      startInLoadingState
-      keyboardDisplayRequiresUserAction
-      originWhitelist={['*']}
-      renderLoading={() => (
-        <ActivityIndicator color="black" size="large" style={{ flex: 1 }} />
-      )}
-      source={{
-        html: `
-          <form action="${action}" method="POST">
-            <script
-              src="https://www.mercadopago.com.ar/integrations/v1/web-tokenize-checkout.js"
-              data-transaction-amount="${amount}"
-              data-public-key="${publicKey}"
-              data-open="${keepOpen}"
-            >
-            </script>
-          </form>
-        `,
-      }}
-      style={{ flex: 1 }}
-    />
-  );
-};
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
 
 export default MercadoPagoWebTokenizeCheckout;

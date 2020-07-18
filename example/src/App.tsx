@@ -11,6 +11,10 @@ export default function App() {
           amount={100.0}
           action={'/payments'}
           publicKey={'TEST-5d2cfefc-32ab-45d5-bab5-fc1bfc2bbb7c'}
+          theme={{
+            elements: '#c0392b',
+            header: '#c0392b',
+          }}
         />
       </SafeAreaView>
     </>
