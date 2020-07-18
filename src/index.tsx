@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
+import { StyleSheet } from 'react-native';
 import { WebView } from 'react-native-webview';
 
-import { getHtmlCode, jsCode } from './utils';
-import { StyleSheet } from 'react-native';
+import { getHtmlCode } from './utils';
 
 interface ThemeOptions {
   /**
@@ -92,7 +92,6 @@ const MercadoPagoWebTokenizeCheckout: React.FC<MercadoPagoWebTokenizeCheckoutPro
           javaScriptEnabled
           startInLoadingState
           originWhitelist={['*']}
-          injectedJavaScript={jsCode}
           source={getHtmlCode(props)}
           keyboardDisplayRequiresUserAction
           style={[styles.container, props.style]}
