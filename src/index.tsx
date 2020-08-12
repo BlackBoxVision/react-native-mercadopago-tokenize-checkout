@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react';
-import { StyleSheet } from 'react-native';
+import React, { useMemo, useRef } from 'react';
 import { WebView } from 'react-native-webview';
+import { StyleSheet } from 'react-native';
 
 import { getHtmlCode } from './utils';
 
@@ -83,22 +83,40 @@ export interface MercadoPagoWebTokenizeCheckoutProps {
 }
 
 const MercadoPagoWebTokenizeCheckout: React.FC<MercadoPagoWebTokenizeCheckoutProps> = React.forwardRef(
-  (props: MercadoPagoWebTokenizeCheckoutProps, ref: React.Ref<WebView>) =>
-    useMemo(
+  (props: MercadoPagoWebTokenizeCheckoutProps, ref: React.Ref<WebView>) => {
+    const innerRef: any = useRef(ref);
+
+    return useMemo(
       () => (
         <WebView
-          ref={ref}
+          ref={innerRef}
           scalesPageToFit
+          domStorageEnabled
           javaScriptEnabled
           startInLoadingState
+          sharedCookiesEnabled
           originWhitelist={['*']}
+          thirdPartyCookiesEnabled
           source={getHtmlCode(props)}
+          allowUniversalAccessFromFileURLs
           keyboardDisplayRequiresUserAction
           style={[styles.container, props.style]}
+          onNavigationStateChange={(navState) => {
+            if (navState.url.includes('action=null%2F')) {
+              const newURL = navState.url.replace('action=null%2F', 'action=');
+
+              innerRef.current.injectJavaScript(
+                `window.location = "${newURL}";`
+              );
+            }
+
+            // TODO: attach a callback for on success when matching the same URL we're trying to post the data
+          }}
         />
       ),
-      [props, ref]
-    )
+      [props]
+    );
+  }
 );
 
 const styles = StyleSheet.create({

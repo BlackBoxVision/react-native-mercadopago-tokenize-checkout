@@ -20,6 +20,7 @@ const dataAttributes = {
 
 export const getHtmlCode = ({ action, ...props }: any) => ({
   html: `
+    <!doctype html>
     <html>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
@@ -48,7 +49,7 @@ export const getHtmlCode = ({ action, ...props }: any) => ({
           }
         </style>
         <script>
-          document.querySelector(".mercadopago-button").click(); 
+          document.querySelector(".mercadopago-button").click();
         </script>
       </body>
     </html>
