@@ -13,7 +13,7 @@ export const PaymentsScreen = ({ route }: any) => {
     <MercadoPagoWebTokenizeCheckout
       amount={amount}
       productLabel={title}
-      action={'/payments'}
+      action="https://nervous-squid-21.serverless.social/payments"
       publicKey={PUBLIC_KEY}
       theme={{
         elements: colors.primary,

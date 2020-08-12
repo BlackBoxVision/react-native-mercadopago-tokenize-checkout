@@ -8,6 +8,8 @@ import { AppStatusBar } from './components/StatusBar';
 import { ProductsScreen } from './screens/Products';
 import { PaymentsScreen } from './screens/Payments';
 
+import { Routes } from './constants';
+
 const primaryColor = DefaultTheme.colors.primary;
 const Stack = createStackNavigator();
 
@@ -17,7 +19,7 @@ const App = () => (
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name="Products"
+          name={Routes.PRODUCTS}
           component={ProductsScreen}
           options={{
             title: 'Products',
@@ -28,12 +30,13 @@ const App = () => (
           }}
         />
         <Stack.Screen
-          name="Payments"
+          name={Routes.PAYMENTS}
           component={PaymentsScreen}
           options={({ route }) => ({
             title: `${(route?.params as any)?.title}`,
             headerTintColor: '#fff',
             headerStyle: {
+              elevation: 0,
               backgroundColor: primaryColor,
             },
           })}

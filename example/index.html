@@ -1,0 +1,26 @@
+<html>
+  <head>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+  </head>
+  <body>
+    <form
+      action="https://nervous-squid-21.serverless.social/payments"
+      method="POST"
+    >
+      <script
+        src="https://www.mercadopago.com.ar/integrations/v1/web-tokenize-checkout.js"
+        data-summary-product-label="Nike Charge Solarsoft"
+        data-elements-color="#6200ee"
+        data-header-color="#6200ee"
+        data-transaction-amount="4739"
+        data-public-key="TEST-5d2cfefc-32ab-45d5-bab5-fc1bfc2bbb7c"
+      ></script>
+    </form>
+    <script>
+      document.querySelector('.mercadopago-button').click();
+    </script>
+  </body>
+</html>
