@@ -120,7 +120,7 @@ The `MercadoPago WebTokenize Checkout` component support the following props:
 | arrears         | number   | none          | The amount for the arrears                     |
 | style           | object   | none          | The additional styles to customize the WebView |
 
-The `theme` props has the following props:
+The `theme` has the following props:
 
 | Properties | Types  | Default Value | Description                            |
 | ---------- | ------ | ------------- | -------------------------------------- |
