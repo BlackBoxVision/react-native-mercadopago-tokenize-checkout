@@ -2,7 +2,7 @@ import React, { useMemo, useRef } from 'react';
 import { WebView } from 'react-native-webview';
 import { StyleSheet } from 'react-native';
 
-import { getHtmlCode } from './utils';
+import { getHtmlCode, getQueryParams } from './utils';
 
 interface ThemeOptions {
   /**
@@ -32,6 +32,18 @@ export interface MercadoPagoWebTokenizeCheckoutProps {
    * Flag to restore the payment state if failure
    */
   keepOpen?: boolean;
+  /**
+   * Redirect url when payment success
+   */
+  successUrl: string;
+  /**
+   * Redirect url when payment fail
+   */
+  failureUrl: string;
+  /**
+   * Callback executed when backend redirects to success or failure url
+   */
+  onPaymentResult?: (paymentData: any, error: boolean) => void;
   /**
    * The cards associated to the customer
    */
@@ -110,7 +122,18 @@ const MercadoPagoWebTokenizeCheckout: React.FC<MercadoPagoWebTokenizeCheckoutPro
               );
             }
 
-            // TODO: attach a callback for on success when matching the same URL we're trying to post the data
+            try {
+              if (typeof props.onPaymentResult === 'function') {
+                if (navState.url.includes(props.successUrl)) {
+                  props.onPaymentResult(getQueryParams(navState.url), false);
+                }
+                if (navState.url.includes(props.failureUrl)) {
+                  props.onPaymentResult(getQueryParams(navState.url), true);
+                }
+              }
+            } catch (e) {
+              throw new Error(e);
+            }
           }}
         />
       ),

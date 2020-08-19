@@ -55,3 +55,17 @@ export const getHtmlCode = ({ action, ...props }: any) => ({
     </html>
   `,
 });
+
+export const getQueryParams = (url: string) => {
+  try {
+    const [, params] = url.split('?');
+    if (params && params.length > 0) {
+      const tuples = params.split('&');
+      return Object.fromEntries(tuples.map((element) => element.split('=')));
+    } else {
+      return {};
+    }
+  } catch {
+    return {};
+  }
+};
