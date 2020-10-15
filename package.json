@@ -148,7 +148,7 @@
     ]
   },
   "dependencies": {
-    "dotenv": "^8.2.0",
-    "lodash.get": "^4.4.2"
+    "lodash.get": "^4.4.2",
+    "react-native-url-polyfill": "^1.2.0"
   }
 }

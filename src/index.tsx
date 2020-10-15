@@ -1,8 +1,9 @@
+import { URL } from 'react-native-url-polyfill';
 import React, { useMemo, useRef } from 'react';
 import { WebView } from 'react-native-webview';
 import { StyleSheet } from 'react-native';
 
-import { getHtmlCode, getQueryParams } from './utils';
+import { getHtmlCode, getQueryParams, log } from './utils';
 
 interface ThemeOptions {
   /**
@@ -114,12 +115,29 @@ const MercadoPagoWebTokenizeCheckout: React.FC<MercadoPagoWebTokenizeCheckoutPro
           keyboardDisplayRequiresUserAction
           style={[styles.container, props.style]}
           onNavigationStateChange={(navState) => {
-            if (navState.url.includes('action=null%2F')) {
-              const newURL = navState.url.replace('action=null%2F', 'action=');
+            log('navState URL', navState.url);
 
-              innerRef.current.injectJavaScript(
-                `window.location = "${newURL}";`
-              );
+            if (navState.url.includes('action=')) {
+              log('URL: ', navState.url);
+
+              const url = new URL(navState.url);
+
+              const action = url.searchParams.get('action');
+
+              log('action', action);
+
+              if (!action) {
+                url.searchParams.delete('action');
+                url.searchParams.append('action', props.action);
+
+                const newURL = `${url.protocol}//${url.hostname}${url.pathname}?${url.searchParams}`;
+
+                log('New URL: ', newURL);
+
+                innerRef.current.injectJavaScript(
+                  `window.location = "${newURL}";`
+                );
+              }
             }
 
             try {

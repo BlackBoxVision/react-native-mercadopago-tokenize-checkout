@@ -69,3 +69,9 @@ export const getQueryParams = (url: string) => {
     return {};
   }
 };
+
+export const log = (...args: any) => {
+  if (__DEV__) {
+    console.info(...args);
+  }
+};
