@@ -97,12 +97,12 @@ export interface MercadoPagoWebTokenizeCheckoutProps {
 
 const MercadoPagoWebTokenizeCheckout: React.FC<MercadoPagoWebTokenizeCheckoutProps> = React.forwardRef(
   (props: MercadoPagoWebTokenizeCheckoutProps, ref: React.Ref<WebView>) => {
-    const innerRef: any = useRef(ref);
+    const webviewRef: any = useRef(ref);
 
     return useMemo(
       () => (
         <WebView
-          ref={innerRef}
+          ref={webviewRef}
           scalesPageToFit
           domStorageEnabled
           javaScriptEnabled
@@ -134,7 +134,7 @@ const MercadoPagoWebTokenizeCheckout: React.FC<MercadoPagoWebTokenizeCheckoutPro
 
                 log('New URL: ', newURL);
 
-                innerRef.current.injectJavaScript(
+                webviewRef.current.injectJavaScript(
                   `window.location = "${newURL}";`
                 );
               }
@@ -142,10 +142,12 @@ const MercadoPagoWebTokenizeCheckout: React.FC<MercadoPagoWebTokenizeCheckoutPro
 
             if (typeof props.onPaymentResult === 'function') {
               if (navState.url.includes(props.successUrl)) {
+                webviewRef.current.stopLoading();
                 props.onPaymentResult(getQueryParams(navState.url), false);
               }
-              
+
               if (navState.url.includes(props.failureUrl)) {
+                webviewRef.current.stopLoading();
                 props.onPaymentResult(getQueryParams(navState.url), true);
               }
             }
