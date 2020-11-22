@@ -140,17 +140,14 @@ const MercadoPagoWebTokenizeCheckout: React.FC<MercadoPagoWebTokenizeCheckoutPro
               }
             }
 
-            try {
-              if (typeof props.onPaymentResult === 'function') {
-                if (navState.url.includes(props.successUrl)) {
-                  props.onPaymentResult(getQueryParams(navState.url), false);
-                }
-                if (navState.url.includes(props.failureUrl)) {
-                  props.onPaymentResult(getQueryParams(navState.url), true);
-                }
+            if (typeof props.onPaymentResult === 'function') {
+              if (navState.url.includes(props.successUrl)) {
+                props.onPaymentResult(getQueryParams(navState.url), false);
               }
-            } catch (e) {
-              throw new Error(e);
+              
+              if (navState.url.includes(props.failureUrl)) {
+                props.onPaymentResult(getQueryParams(navState.url), true);
+              }
             }
           }}
         />
